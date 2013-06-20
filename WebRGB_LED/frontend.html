@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>RGB Lights</title>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<style type="text/css">
+			div.const-width {
+				font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+				width: 300px;
+				margin-left: auto;
+				margin-right: auto;
+				margin-bottom: 5px;
+			}
+			#header, #footer {
+				border: 1px solid blue;
+			}
+			p.tight {
+				padding-top: 0px;
+				padding-bottom: 0px;
+				margin-top: 0px;
+				margin-bottom: 0px;
+			}
+			h1 {
+				font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+				padding-top: 0px;
+				padding-bottom: 0px;
+				margin-top: 0px;
+				margin-bottom: 0px;
+			}
+			.slider, #time-spinner {
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+			#time-spinner {
+				width: 120px;
+			}
+			#transition-select {
+				width: 150px;
+			}
+		</style>
+		<link href='http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css' rel="stylesheet" />
+		<script type="text/javascript" src='http://code.jquery.com/jquery-1.9.1.js'></script>
+		<script type="text/javascript" src='http://code.jquery.com/ui/1.10.2/jquery-ui.js'></script>
+		<script type="text/javascript">
+			$(function() {
+				var sliderOptions = {min: 0, max: 255, step: 1, stop: updateHandler};
+				var tSpinnerOptions = {min: 0, max: 2000, stop: 1};
+				$("#red-slider").slider(sliderOptions);
+				$("#green-slider").slider(sliderOptions);
+				$("#blue-slider").slider(sliderOptions);
+				$("#white-slider").slider({min: 0, max: 255, step: 1, stop: whiteHandler});
+				$("#time-spinner").spinner(tSpinnerOptions);
+				$("#white-button")
+					.button()
+					.click(function() {
+						masterHandler(255, 255, 50);
+				});
+				$("#full-on-button")
+					.button()
+					.click(function() {
+						masterHandler(255, 255, 255);
+				});
+				$("#off-button")
+					.button()
+					.click(function() {
+						masterHandler(0, 0, 0);
+				});
+				$("#refresh-button")
+					.button()
+					.click(function() {
+						getLightState();
+				});
+				getLightState();
+			});
+			function whiteHandler() {
+				var whiteLightLevel = $("#white-slider").slider("values", 0);
+				masterHandler(whiteLightLevel, whiteLightLevel, whiteLightLevel);
+			}
+			function masterHandler(r, g, b) {
+				$("#red-slider").slider("value", r);
+				$("#green-slider").slider("value", g);
+				$("#blue-slider").slider("value", b);
+				updateHandler();
+			}
+			function setLights(red, green, blue, transition, ttime) {
+				$.post("http://192.168.1.200/service", {r: red, g: green, b: blue, trans: transition, time: ttime})
+				.done(function(data) {
+					handleXMLresponse(data);
+				});
+			}
+			function getLightState() {
+				$.get("http://192.168.1.200/service")
+				.done(function(data) {
+					handleXMLresponse(data);
+				});
+			}
+			function handleXMLresponse(data) {
+				var parser = new DOMParser();
+				var doc = parser.parseFromString(data, "text/xml");
+				xmlDoc = $.parseXML(data);
+				$xml = $(xmlDoc);
+				var red = $xml.find("r").text();
+				var green = $xml.find("g").text();
+				var blue = $xml.find("b").text();
+				var transition = $xml.find("lastTransition").text();
+				var time = $xml.find("lastTime").text();
+				$("#red-slider").slider("value", red);
+				$("#green-slider").slider("value", green);
+				$("#blue-slider").slider("value", blue);
+				$("#time-spinner").spinner("value", time);
+				var average = (parseInt(red) + parseInt(green) + parseInt(blue)) / 3;
+				$("#white-slider").slider("value", average);
+				document.getElementById('transition-select').value = transition;
+			}
+			function updateHandler() {
+				var red = $("#red-slider").slider("values", 0);
+				var green = $("#green-slider").slider("values", 0);
+				var blue = $("#blue-slider").slider("values", 0);
+				var time = $( "#time-spinner" ).spinner("value");
+				var transition = document.getElementById('transition-select').value;
+				setLights(red, green, blue, transition, time);
+			}
+		</script>
+	</head>
+	<body>
+		<div class="const-width" id="header">
+			<h1>RGB LED Lighting</h1>
+		</div>
+		<div class="const-width" id="colour-sliders">
+			<div class="slider" id="red-slider" style="background:red"></div>
+			<div class="slider" id="green-slider" style="background:green"></div>
+			<div class="slider" id="blue-slider" style="background:blue"></div>
+			<div class="slider" id="white-slider"></div>
+		</div>
+		<div class="const-width" id="time-selector">
+			<label>Transition Time:</label>
+			<input id="time-spinner" name="ttime" />
+		</div>
+		<div class="const-width" id="transition-selector">
+			<label>Transition Type:</label>
+			<select id="transition-select">
+				<option value="0">No Transition</option>
+				<option value="1">Fade</option>
+				<option value="2">Fade Through Black</option>
+			</select>
+		</div>
+		<div class="const-width" id="function-buttons">
+			<button id="white-button">White</button>
+			<button id="full-on-button">Full On</button>
+			<button id="off-button">Off</button>
+			<button id="refresh-button">Refresh</button>
+		</div>
+		<div class="const-width" id="footer">
+			<p class="tight"><a href="http://dan-nixon.com" >Dan Nixon</a> 2013</p>
+		</div>
+	</body>
+</html>

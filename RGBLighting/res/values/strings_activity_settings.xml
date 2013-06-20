@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_header_general">General</string>
+
+    <string name="serviceURL_title">Service URL</string>
+    <string name="serviceURL_summ">URL of lighting control web service</string>
+    <string name="serviceURL_default">http://[URI]</string>
+
+</resources>

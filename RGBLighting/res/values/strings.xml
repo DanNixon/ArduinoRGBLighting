@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RGB Lighting</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="redSlider_label">Red:</string>
+    <string name="greenSlider_label">Green:</string>
+    <string name="blueSlider_label">Blue:</string>
+    <string name="whiteSlider_label">White:</string>
+    <string name="tTime_text">Transition Time:</string>
+    <string name="whiteButton_text">White</string>
+    <string name="onButton_text">Full On</string>
+    <string name="offButton_text">Off</string>
+    <string name="refreshButton_text">Refresh</string>
+
+</resources>

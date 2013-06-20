@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="TransitionNames">
+        <item>No Transition</item>
+        <item>Fade</item>
+        <item>Fade Through Black</item>
+    </string-array>
+    
+</resources>
