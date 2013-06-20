@@ -15,6 +15,8 @@ Installation/Setup
 
 After constructing a driver similar to that shown in the schmatic upload the sketch provided to your Arduino, changing the IP and I/O pins as needed.
 
+A better guide is available on Instructables [here](http://www.instructables.com/id/Arduino-Web-Enabled-RGB-Lighting/).
+
 Usage
 -----
 
