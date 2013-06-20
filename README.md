@@ -13,6 +13,8 @@ Requirements
 Installation/Setup
 ------------------
 
+After constructing a driver similar to that shown in the schmatic upload the sketch provided to your Arduino, changing the IP and I/O pins as needed.
+
 Usage
 -----
 
@@ -25,7 +27,7 @@ POST API
 
 The HTTP POST API takes 5 parameters:
 -	trans = Transition type: 0=No Transition, 1=Fade, 2=Fade Through Black
--	time = Time taken for transition
+-	time = Time taken for transition (no effect for trans=0)
 -	r = Red light level
 -	g = Green light level
 -	b = Blue light level
