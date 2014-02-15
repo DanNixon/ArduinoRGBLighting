@@ -1,0 +1,9 @@
+# Eclipse stuff
+.metadata
+.settings
+
+# Android stuff
+/bin
+
+# Media files
+RGBLightingAudio/data
