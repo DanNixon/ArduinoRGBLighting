@@ -40,7 +40,7 @@ static int FULL_WHITE[] = {255, 255, 255};
 
 //Webserver
 static uint8_t MAC[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-static uint8_t IP[] = {192, 168, 1, 200};
+static uint8_t IP[] = {172, 18, 16, 200};
 WebServer webserver("", 80);
 
 //Variables
@@ -138,13 +138,13 @@ P(frontEndHTML) =
   "updateHandler();"
   "}"
   "function setLights(red, green, blue, transition, ttime) {"
-  "$.post('http://192.168.1.200/service', {r: red, g: green, b: blue, trans: transition, time: ttime})"
+  "$.post('http://172.18.16.200/service', {r: red, g: green, b: blue, trans: transition, time: ttime})"
   ".done(function(data) {"
   "handleXMLresponse(data);"
   "});"
   "}"
   "function getLightState() {"
-  "$.get('http://192.168.1.200/service')"
+  "$.get('http://172.18.16.200/service')"
   ".done(function(data) {"
   "handleXMLresponse(data);"
   "});"
@@ -244,6 +244,7 @@ void webBackend(WebServer &server, WebServer::ConnectionType type, char *, bool)
     }
   }
   if((type == WebServer::POST) || (type == WebServer::GET)) {
+    server.println("<?xml version='1.0'?>");
     server.println("<xml>");
     server.println("<currentColour>");
     server.print("<r>");
