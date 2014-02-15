@@ -3,7 +3,7 @@
 .settings
 
 # Android stuff
-/bin
+bin/
 
 # Media files
 RGBLightingAudio/data
