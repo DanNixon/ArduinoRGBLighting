@@ -52,7 +52,7 @@ void setup() {
   size(512, 120);
   minim = new Minim(this);
   //This audio file must be located in the "data" folder on the same level as this source file
-  player = minim.loadFile("ct.mp3", 1024);
+  player = minim.loadFile("wp.mp3", 1024);
   player.play();
   fft = new FFT(player.bufferSize(), player.sampleRate());
 }

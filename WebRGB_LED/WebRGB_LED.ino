@@ -36,7 +36,7 @@ static const int DEFAULT_TIME = 200;
 
 //Standard Light Modes
 static int OFF[] = {0, 0, 0};
-static int FULL_WHITE[] = {255, 255, 255};
+static int FULL_WHITE[] = {255, 255, 50};
 
 //Webserver
 static uint8_t MAC[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
@@ -359,7 +359,8 @@ void setup() {
   webserver.addCommand("service", &webBackend);
   webserver.begin();
   buttonLast = digitalRead(BUTTON_PIN);
-  lightMode = LIGHT_OFF;
+  lightMode = LIGHT_ON;
+  lightChange(FULL_WHITE, lastUsedTransition, lastUsedTime);
 }
 
 void loop() {
